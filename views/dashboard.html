@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: #fff;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            background: #4361ee;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-image i {
+            font-size: 3rem;
+            color: #fff;
+        }
+
+        .student-name {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .student-id {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link i {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #4361ee;
+            color: #fff;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-text {
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-bell i {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #4895ef;
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .card-header i {
+            font-size: 1.5rem;
+            color: #4361ee;
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Course Grid */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .course-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-image {
+            background: #4361ee;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .course-image i {
+            font-size: 3rem;
+            color: #fff;
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .course-title {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .course-info {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4361ee;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Calendar Card */
+        .calendar-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .event-list {
+            list-style: none;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-date {
+            min-width: 60px;
+            text-align: center;
+            margin-right: 1rem;
+        }
+
+        .event-date strong {
+            display: block;
+            color: #4361ee;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .event-date span {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .event-details h4 {
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .event-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 1rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-image">
+                    <i class="ri-user-line"></i>
+                </div>
+                <h3 class="student-name">Student Name</h3>
+                <p class="student-id">ID: STU2025001</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="ri-dashboard-line"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="ri-book-open-line"></i>
+                        Courses
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="ri-calendar-line"></i>
+                        Schedule
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="ri-file-list-line"></i>
+                        Assignments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="ri-bar-chart-line"></i>
+                        Sessional Tets Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="ri-message-2-line"></i>
+                        Messages
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="ri-settings-line"></i>
+                        Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">
+                        <i class="ri-logout-box-line"></i>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1 class="welcome-text">Welcome back, Student</h1>
+                <div class="notification-bell">
+                    <i class="ri-notification-3-line"></i>
+                    <span class="notification-count">3</span>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Current GPA</h3>
+                        <i class="ri-bar-chart-box-line"></i>
+                    </div>
+                    <h2>3.85</h2>
+                    <p>Out of 4.0</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Attendance</h3>
+                        <i class="ri-calendar-check-line"></i>
+                    </div>
+                    <h2>95%</h2>
+                    <p>This semester</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Due Assignments</h3>
+                        <i class="ri-file-list-3-line"></i>
+                    </div>
+                    <h2>4</h2>
+                    <p>This week</p>
+                </div>
+            </div>
+
+            <!-- Courses -->
+            <h2 style="margin-bottom: 1rem;">My Courses</h2>
+            <div class="course-grid">
+                <div class="course-card">
+                    <div class="course-image">
+                        <i class="ri-code-line"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Advanced Programming</h3>
+                        <p class="course-info">Prof. Sarah Johnson</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                        <p>50% Complete</p>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-image">
+                        <i class="ri-database-2-line"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Database Management</h3>
+                        <p class="course-info">Prof. Mike Brown</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                        <p>50% Complete</p>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-image">
+                        <i class="ri-window-line"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Web Development</h3>
+                        <p class="course-info">Prof. Emily White</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                        <p>30% Complete</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="calendar-card">
+                <div class="card-header">
+                    <h3 class="card-title">Upcoming Events</h3>
+                </div>
+                <ul class="event-list">
+                    <li class="event-item">
+                        <div class="event-date">
+                            <strong>Sep</strong>
+                            <span>20</span>
+                        </div>
+                        <div class="event-details">
+                            <h4>Database Management Mid-term</h4>
+                            <p>09:00 AM - Room 301</p>
+                        </div>
+                    </li>
+                    <li class="event-item">
+                        <div class="event-date">
+                            <strong>Sep</strong>
+                            <span>22</span>
+                        </div>
+                        <div class="event-details">
+                            <h4>Web Development Project Due</h4>
+                            <p>11:59 PM</p>
+                        </div>
+                    </li>
+                    <li class="event-item">
+                        <div class="event-date">
+                            <strong>Sep</strong>
+                            <span>25</span>
+                        </div>
+                        <div class="event-details">
+                            <h4>Programming Lab Session</h4>
+                            <p>02:00 PM - Lab 204</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
